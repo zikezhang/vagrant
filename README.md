@@ -48,6 +48,10 @@ By default this setup uses 500MB RAM. You can change this in `Vagrantfile` and s
 - [Virtualbox](https://www.virtualbox.org) version 4.3.*
 - [Vagrant](http://www.vagrantup.com) version 1.4.*
 
+If you have issues with windows and vbguest additions, use the following versions:
+- Virtualbox version 4.2.*
+- Vagrant 1.4.1
+
 ## Installation
 
 First you need a [Git enabled terminal](#software-suggestions). Then you should **clone this repository** locally.
