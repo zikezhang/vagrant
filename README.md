@@ -52,6 +52,9 @@ If you have issues with windows and vbguest additions, use the following version
 - Virtualbox version 4.2.*
 - Vagrant 1.4.1
 
+If you are using Linux such as Ubuntu, you may have to set a different IP that doesn't interfere with DHCP in linux, here is a safe bet:
+- `192.168.50.4`
+
 ## Installation
 
 First you need a [Git enabled terminal](#software-suggestions). Then you should **clone this repository** locally.
