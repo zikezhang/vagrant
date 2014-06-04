@@ -12,8 +12,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
   # Connect to IP
+  # Note: Use an IP that doesn't conflict with any OS's DHCP (Below is a safe bet)
   # --------------------
-  config.vm.network :private_network, ip: "192.168.5.0"
+  config.vm.network :private_network, ip: "192.168.50.4"
 
   # Forward to Port
   # --------------------
