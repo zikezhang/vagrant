@@ -81,20 +81,20 @@ inside if you want to change any default settings. Once provisioned, to access t
     # To exit type:
     $ exit
 
-If you want to change your bound address (`192.168.5.0`), edit `Vagrantfile`, change the ip and run:
+If you want to change your bound address (`192.168.50.4`), edit `Vagrantfile`, change the ip and run:
 
     $ vagrant reload
 
 If you want to point your Guest Machine (The Virtual Machine OS) to a friendly URL, you could modify your `etc/hosts` file and add the following:
 
-    192.168.5.0  your-server-name
+    192.168.50.4  your-server-name
 
 
 ## Vagrant Credentials
 
 These are credentials setup by default:
 
-- **Host Address**: 192.168.5.0 _(Change in Vagrantfile if you like)_
+- **Host Address**: 192.168.50.4 _(Change in Vagrantfile if you like)_
 - **SSH**: vagrant / vagrant _(If root password fails, run `$ sudo passwd` and set one)_
 - **MySQL**: root / (none)
 - **Redis**: (none)
@@ -155,8 +155,8 @@ If you wanted to disable a site:
 
 You should be able to access the following URL's:
 
-    http://192.168.5.0/
-    http://192.168.5.0/superstar
+    http://192.168.50.4/
+    http://192.168.50.4/superstar
 
 ## Local Editing
 
