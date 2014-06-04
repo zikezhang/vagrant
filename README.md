@@ -179,6 +179,10 @@ So this simply means, if you edit things in the `www` folder you must run `sudo 
 
 If you are having trouble with Phalcon in this Vagrant Project (Or on your live server), try compiling in [safe mode](https://github.com/phalcon/cphalcon/issues/2336#issuecomment-40333421).
 
+If you are having problems with guest-additions on linux with mounting folders run this command in the guest machine:
+
+    $ sudo ln -s /opt/VBoxGuestAdditions-4.3.10/lib/VBoxGuestAdditions /usr/lib/VBoxGuestAdditions
+
 ## Software Suggestions
 
 If you are using Linux you can use the built in Terminal to do everything.
