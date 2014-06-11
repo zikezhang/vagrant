@@ -13,6 +13,7 @@ to build a powerful PHP application focused on **Phalcon Framework**.
 - [Create a VHost Record](#create-a-vhost-record)
 - [Local Editing](#local-editing)
 - [Using SSH](#using-ssh)
+- [Troubleshooting Vagrant Ubuntu](#troubleshooting-vagrant-ubuntu)
 - [Troubleshooting Phalcon](#troubleshooting-phalcon)
 - [Software Suggestions](#software-suggestions)
 
@@ -52,8 +53,6 @@ If you have issues with windows and vbguest additions, use the following version
 - Virtualbox version 4.2.*
 - Vagrant 1.4.1
 
-If you are using Linux such as Ubuntu, you may have to set a different IP that doesn't interfere with DHCP in linux, here is a safe bet:
-- `192.168.50.4`
 
 ## Installation
 
@@ -174,6 +173,19 @@ that you will have no problems with saving cached files. Even with the `vagrant`
 the `www-data` group, and even with `0777` write permissions I could't get the cache to save.
 
 So this simply means, if you edit things in the `www` folder you must run `sudo command` to do so.
+
+
+## Troubleshooting Vagrant Ubuntu
+
+If you are using Linux such as Ubuntu, you may have to set a different IP that doesn't interfere with DHCP in linux, here is a safe bet:
+- `192.168.50.4`
+
+If you are using the latest VirtualBox with Ubuntu 14, after installing guest additions (below), to fix the error message you will get due to a bug in the guest additions do the following after you run `$ vagrant up`.
+
+    $ vagrant ssh
+    $ sudo ln -s /opt/VBoxGuestAdditions-4.3.10/lib/VBoxGuestAdditions /usr/lib/VBoxGuestAdditions
+    $ vagrant reload
+
 
 ## Troubleshooting Phalcon
 
