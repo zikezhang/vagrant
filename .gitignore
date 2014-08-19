@@ -4,4 +4,5 @@
 .project
 .settings
 .vagrant*
-www/vendor*
+www/*
+!www/index.php
