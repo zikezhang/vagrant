@@ -103,6 +103,8 @@ sudo php5enmod mcrypt
 sudo sed -i 's/short_open_tag = Off/short_open_tag = On/' /etc/php5/apache2/php.ini
 sudo sed -i 's/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/error_reporting = E_ALL/' /etc/php5/apache2/php.ini
 sudo sed -i 's/display_errors = Off/display_errors = On/' /etc/php5/apache2/php.ini 
+# Append session save location to /tmp to prevent errors in an odd situation..
+sudo sed -i '/\[Session\]/a session.save_path = "/tmp"' /etc/php5/apache2/php.ini
 
 
 #
