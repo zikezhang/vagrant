@@ -4,6 +4,7 @@ This is a simple vagrant setup to get loaded with core development tools
 to build a powerful PHP application focused on **Phalcon Framework**.
 
 ## Index
+- [Landing Page](#landing-page)
 - [Overview](#overview)
 - [Packages Included](#packages-included)
 - [**Requirements**](#requirements)
@@ -16,6 +17,10 @@ to build a powerful PHP application focused on **Phalcon Framework**.
 - [Troubleshooting Vagrant Ubuntu](#troubleshooting-vagrant-ubuntu)
 - [Troubleshooting Phalcon](#troubleshooting-phalcon)
 - [Software Suggestions](#software-suggestions)
+
+# Landing Page
+This is the default page for the Phalcon Vagrant Setup. This page will be empty at the beginning until you start adding VirtualHosts and content to the `/www/` folder. 
+<img src="http://static.jream.com/img/github-phalcon-vagrant.jpg" alt="Phalcon Vagrant">
 
 ## Overview
 
