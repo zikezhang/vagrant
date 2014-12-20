@@ -6,7 +6,6 @@ sudo apt-get update
 # For PHP 5.5
 #
 sudo apt-get install -y python-software-properties
-sudo add-apt-repository ppa:ondrej/php5
 sudo apt-get update
 
 #
@@ -18,8 +17,8 @@ apt-get -q -y install mysql-server
 #
 # PHP
 #
-sudo apt-get install -y php5 php5-dev apache2 libapache2-mod-php5 php5-mysql php5-curl php5-mcrypt libpcre3-dev
-
+sudo apt-get install -y php5 php5-dev apache2 libapache2-mod-php5 libpcre3-dev
+sudo apt-get install -y php5-mcrypt php5-curl php5-intl php5-mysql
 #
 # Redis
 #
@@ -57,8 +56,6 @@ sudo sed -i 's/bind-address/bind-address = 0.0.0.0#/' /etc/mysql/my.cnf
 mysql -u root -Bse "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '' WITH GRANT OPTION;"
 sudo service mysql restart
 
-
-
 #
 # Composer for PHP
 #
@@ -84,7 +81,6 @@ sudo a2enmod rewrite
 
 #
 # Install PhalconPHP
-# Enable it
 #
 cd ~
 git clone --depth=1 https://github.com/phalcon/cphalcon.git
@@ -93,19 +89,6 @@ sudo ./install
 
 echo "extension=phalcon.so" > phalcon.ini
 sudo mv phalcon.ini /etc/php5/mods-available
-sudo php5enmod phalcon
-sudo php5enmod curl
-sudo php5enmod mcrypt
-
-#
-# Update PHP Error Reporting
-#
-sudo sed -i 's/short_open_tag = Off/short_open_tag = On/' /etc/php5/apache2/php.ini
-sudo sed -i 's/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/error_reporting = E_ALL/' /etc/php5/apache2/php.ini
-sudo sed -i 's/display_errors = Off/display_errors = On/' /etc/php5/apache2/php.ini 
-# Append session save location to /tmp to prevent errors in an odd situation..
-sudo sed -i '/\[Session\]/a session.save_path = "/tmp"' /etc/php5/apache2/php.ini
-
 
 #
 # Install PhalconPHP DevTools
@@ -119,6 +102,20 @@ sudo mkdir /opt/phalcon-tools
 sudo mv ~/vendor/phalcon/devtools/* /opt/phalcon-tools
 sudo ln -s /opt/phalcon-tools/phalcon.php /usr/bin/phalcon
 sudo rm -rf ~/vendor
+
+#
+# Enable PHP5 Mods
+#
+sudo php5enmod phalcon curl mcrypt intl
+
+#
+# Update PHP Error Reporting
+#
+sudo sed -i 's/short_open_tag = Off/short_open_tag = On/' /etc/php5/apache2/php.ini
+sudo sed -i 's/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/error_reporting = E_ALL/' /etc/php5/apache2/php.ini
+sudo sed -i 's/display_errors = Off/display_errors = On/' /etc/php5/apache2/php.ini 
+# Append session save location to /tmp to prevent errors in an odd situation..
+sudo sed -i '/\[Session\]/a session.save_path = "/tmp"' /etc/php5/apache2/php.ini
 
 #
 # Reload apache
