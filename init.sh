@@ -6,6 +6,7 @@ sudo apt-get update
 # For PHP 5.5
 #
 sudo apt-get install -y python-software-properties
+sudo add-apt-repository ppa:ondrej/php5
 sudo apt-get update
 
 #
@@ -27,7 +28,7 @@ sudo apt-get install -y redis-server
 #
 # MongoDB
 #
-sudo apt-get install mongodb-clients mongodb-server
+sudo apt-get install -y mongodb-clients mongodb-server
 
 #
 # Utilities
@@ -135,5 +136,5 @@ echo -e
 echo -e "Then follow the README.md to copy/paste the VirtualHost!\n"
 
 echo -e "----------------------------------------"
-echo -e "Default Site: http://192.168.5.0"
+echo -e "Default Site: http://192.168.50.4"
 echo -e "----------------------------------------"
