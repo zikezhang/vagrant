@@ -1,12 +1,10 @@
 #!/bin/bash
-# Using Precise32 Ubuntu
+# Using Trusty64 Ubuntu
 
-sudo apt-get update
 #
-# For PHP 5.5
+# Add Phalcon repository
 #
-sudo apt-get install -y python-software-properties
-sudo add-apt-repository ppa:ondrej/php5
+sudo apt-add-repository -y ppa:phalcon/stable
 sudo apt-get update
 
 #
@@ -20,6 +18,7 @@ apt-get -q -y install mysql-server
 #
 sudo apt-get install -y php5 php5-dev apache2 libapache2-mod-php5 libpcre3-dev
 sudo apt-get install -y php5-mcrypt php5-curl php5-intl php5-mysql
+
 #
 # Redis
 #
@@ -33,7 +32,7 @@ sudo apt-get install -y mongodb-clients mongodb-server
 #
 # Utilities
 #
-sudo apt-get install -y make curl htop git-core vim
+sudo apt-get install -y curl htop git-core vim
 
 #
 # Redis Configuration
@@ -83,13 +82,7 @@ sudo a2enmod rewrite
 #
 # Install PhalconPHP
 #
-cd ~
-git clone --depth=1 https://github.com/phalcon/cphalcon.git
-cd cphalcon/build
-sudo ./install
-
-echo "extension=phalcon.so" > phalcon.ini
-sudo mv phalcon.ini /etc/php5/mods-available
+sudo apt-get install -y php5-phalcon
 
 #
 # Install PhalconPHP DevTools
@@ -114,8 +107,8 @@ sudo php5enmod phalcon curl mcrypt intl
 #
 sudo sed -i 's/short_open_tag = Off/short_open_tag = On/' /etc/php5/apache2/php.ini
 sudo sed -i 's/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/error_reporting = E_ALL/' /etc/php5/apache2/php.ini
-sudo sed -i 's/display_errors = Off/display_errors = On/' /etc/php5/apache2/php.ini 
-# Append session save location to /tmp to prevent errors in an odd situation..
+sudo sed -i 's/display_errors = Off/display_errors = On/' /etc/php5/apache2/php.ini
+#  Append session save location to /tmp to prevent errors in an odd situation..
 sudo sed -i '/\[Session\]/a session.save_path = "/tmp"' /etc/php5/apache2/php.ini
 
 #
@@ -123,9 +116,13 @@ sudo sed -i '/\[Session\]/a session.save_path = "/tmp"' /etc/php5/apache2/php.in
 #
 sudo a2ensite vagrant
 sudo a2dissite 000-default
-sudo service apache2 reload
 sudo service apache2 restart
 sudo service mongodb restart
+
+#
+#  Cleanup
+#
+sudo apt-get autoremove -y
 
 echo -e "----------------------------------------"
 echo -e "To create a Phalcon Project:\n"
