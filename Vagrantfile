@@ -8,8 +8,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Base Box
   # --------------------
-  config.vm.box = "precise32"
-  config.vm.box_url = "http://files.vagrantup.com/precise32.box"
+  config.vm.box = "ubuntu/trusty64"
 
   # Connect to IP
   # Note: Use an IP that doesn't conflict with any OS's DHCP (Below is a safe bet)
