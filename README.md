@@ -24,10 +24,10 @@ This is the default page for the Phalcon Vagrant Setup. This page will be empty 
 
 ## Overview
 
-We use the default Ubuntu Precise 32-bit ISO from Vagrant for compatibility.
+We use the default Ubuntu trusty64 ISO from Vagrant for compatibility.
 If you choose to use a 64-bit ISO you may need to update your BIOS to enable virtualization with AMD-V or Intel VT.
 
-When you provision Vagrant for the first time it's always the longest procedure (`$ vagrant up`). Vagrant will download the entire Linux OS if you've never used Vagrant or the Precise32 Box. Afterwards, booting time is fast.
+When you provision Vagrant for the first time it's always the longest procedure (`$ vagrant up`). Vagrant will download the entire Linux OS if you've never used Vagrant or the ubuntu/trusty64 Box. Afterwards, booting time is fast.
 
 By default this setup uses 500MB RAM. You can change this in `Vagrantfile` and simply run `$ vagrant reload`. You can also use more than one core if you like, simply uncomment these two lines in the same file:
 
@@ -37,7 +37,7 @@ By default this setup uses 500MB RAM. You can change this in `Vagrantfile` and s
 ## Packages Included
 
 - LAMP Stack
-  - Ubuntu Precise (32-Bit)
+  - Ubuntu Trusty64
   - Apache 2
   - PHP 5.5
   - MySQL 5.5
