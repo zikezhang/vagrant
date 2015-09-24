@@ -1,7 +1,14 @@
-#Vagrant + Phalcon
+# Vagrant Phalcon
 
-This is a simple vagrant setup to get loaded with core development tools
-to build a powerful PHP application focused on **Phalcon Framework**.
+Phalcon strives to get closer to developers, providing flexible, powerful and simple tools.
+We would like a Phalcon development process to be effortless and pleaseant
+from deployment of the development environment to the programming in Zephir language.
+
+[Vagrant][1] provides a simple, elegant way to manage and provision Virtual Machines and
+this is a *recomended* Vagrant setup to get loaded with core development tools
+to build a powerful PHP application focused on [Phalcon Framework][2].
+
+
 
 ## Index
 - [Landing Page](#landing-page)
@@ -31,8 +38,10 @@ When you provision Vagrant for the first time it's always the longest procedure 
 
 By default this setup uses 500MB RAM. You can change this in `Vagrantfile` and simply run `$ vagrant reload`. You can also use more than one core if you like, simply uncomment these two lines in the same file:
 
-    v.customize ["modifyvm", :id, "--cpus", "2"]
-    v.customize ["modifyvm", :id, "--ioapic", "on"]
+```yaml
+v.customize ["modifyvm", :id, "--cpus", "2"]
+v.customize ["modifyvm", :id, "--ioapic", "on"]
+```
 
 ## Packages Included
 
@@ -206,3 +215,6 @@ If you are using Linux you can use the built in Terminal to do everything.
 The same goes with OSX.
 
 For Windows, you can use [Git SCM](http://git-scm.com/) and Bash.
+
+[1]: http://vagrantup.com/
+[2]: https://phalconphp.com/
