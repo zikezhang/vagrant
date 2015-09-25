@@ -8,36 +8,60 @@ sudo apt-add-repository -y ppa:phalcon/stable
 sudo apt-get update
 
 #
+# Setup locales
+#
+echo -e "LC_CTYPE=en_US.UTF-8\nLC_ALL=en_US.UTF-8\nLANG=en_US.UTF-8\nLANGUAGE=en_US.UTF-8" | sudo tee -a /etc/environmen
+sudo locale-gen en_US en_US.UTF-8
+sudo dpkg-reconfigure locales
+
+#
+# Hostname
+#
+sudo hostnamectl set-hostname phalcon-vm
+
+#
 # MySQL with root:<no password>
 #
 export DEBIAN_FRONTEND=noninteractive
-apt-get -q -y install mysql-server
+apt-get -q -y install mysql-server php5-mysql
 
 #
 # PHP
 #
-sudo apt-get install -y php5 php5-dev apache2 libapache2-mod-php5 libpcre3-dev
-sudo apt-get install -y php5-mcrypt php5-curl php5-intl php5-mysql
+sudo apt-get install -y php5 php5-dev php-pear apache2 libapache2-mod-php5 libpcre3 libpcre3-dev
+sudo apt-get install -y php5-mcrypt php5-curl php5-intl xdebug
 
 #
-# Redis
+# Apc
 #
-sudo apt-get install -y redis-server
+sudo apt-get -y install php-apc php5-apcu
+
+#
+# Memcached
+#
+sudo apt-get install -y memcached php5-memcached php5-memcache
 
 #
 # MongoDB
 #
-sudo apt-get install -y mongodb-clients mongodb-server
+sudo apt-get install -y mongodb-clients mongodb-server php5-mongo
+
+#
+# Beanstalkd
+#
+sudo apt-get -y install beanstalkd
 
 #
 # Utilities
 #
-sudo apt-get install -y curl htop git-core vim
+sudo apt-get install -y curl htop git dos2unix vim grc
 
 #
-# Redis Configuration
+# Redis
+#
 # Allow us to Remote from Vagrant with Port
 #
+sudo apt-get install -y redis-server redis-tools php5-redis
 sudo cp /etc/redis/redis.conf /etc/redis/redis.bkup.conf
 sudo sed -i 's/bind 127.0.0.1/bind 0.0.0.0/' /etc/redis/redis.conf
 sudo /etc/init.d/redis-server restart

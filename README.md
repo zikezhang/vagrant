@@ -8,14 +8,12 @@ from deployment of the development environment to the programming in Zephir lang
 this is a *recomended* Vagrant setup to get loaded with core development tools
 to build a powerful PHP application focused on [Phalcon Framework][2].
 
-
-
 ## Index
 - [Landing Page](#landing-page)
 - [Overview](#overview)
 - [Packages Included](#packages-included)
-- [**Requirements**](#requirements)
-- [**Installation**](#installation)
+- [Requirements](#requirements)
+- [Installation](#installation)
 - [Vagrant Credentials](#vagrant-credentials)
 - [Create a Phalcon Project](#create-a-phalcon-project)
 - [Create a VHost Record](#create-a-vhost-record)
@@ -46,62 +44,74 @@ v.customize ["modifyvm", :id, "--ioapic", "on"]
 ## Packages Included
 
 - LAMP Stack
-  - Ubuntu Trusty64
+  - Ubuntu 14.04.3 LTS
   - Apache 2
   - PHP 5.5
   - MySQL 5.5
-- Git
-- [Phalcon](http://phalconphp.com/en/)
-- [Phalcon Dev Tools](https://github.com/phalcon/phalcon-devtools)
-- [Redis 2.8](http://redis.io/)
-- [MongoDB 2.0.4](https://www.mongodb.org/)
-- [Composer (PHP)](https://getcomposer.org)
+- Git 1.9.1
+- Memcached 1.4.14
+- Beanstalkd 1.9
+- [Phalcon][2] (latest stable)
+- [Phalcon Dev Tools][3] (latest stable)
+- [Redis][4] 2.8
+- [MongoDB][5] 2.0.4
+- [Composer][6]
 
 ## Requirements
 
 - Operating System: Windows, Linux, or OSX.
-- [Virtualbox](https://www.virtualbox.org) version 4.3.*
-- [Vagrant](http://www.vagrantup.com) version 1.4.*
+- [Virtualbox][7] version 4.3.*
+- [Vagrant][1] version 1.4.*
 
 If you have issues with windows and vbguest additions, use the following versions:
 - Virtualbox version 4.2.*
 - Vagrant 1.4.1
 
-
 ## Installation
 
 First you need a [Git enabled terminal](#software-suggestions). Then you should **clone this repository** locally.
 
-    $ git clone https://github.com/phalcon/vagrant.git
+```sh
+$ git clone https://github.com/phalcon/vagrant.git
+```
 
 For newer versions of Vagrant and VirtualBox you may need **guest additions**, so install the plugin:
 
-    # For Linux/OSX
-    $ vagrant plugin install vagrant-vbguest
+```sh
+# For Linux/OSX
+$ vagrant plugin install vagrant-vbguest
 
-    # For Windows
-    $ vagrant plugin install vagrant-windows
+# For Windows
+$ vagrant plugin install vagrant-windows
+```
 
 Now you are ready to provision your Virtual Machine, run:
 
-    $ vagrant up
+```sh
+$ vagrant up
+```
 
 The `init.sh` script will provision the system with everything needed. Take a look
 inside if you want to change any default settings. Once provisioned, to access the box, simply type:
 
-    $ vagrant ssh
+```sh
+$ vagrant ssh
 
-    # To exit type:
-    $ exit
+# To exit type:
+$ exit
+```
 
 If you want to change your bound address (`192.168.50.4`), edit `Vagrantfile`, change the ip and run:
 
-    $ vagrant reload
+```sh
+$ vagrant reload
+```
 
 If you want to point your Guest Machine (The Virtual Machine OS) to a friendly URL, you could modify your `etc/hosts` file and add the following:
 
-    192.168.50.4  your-server-name
-
+```
+192.168.50.4  your-server-name
+```
 
 ## Vagrant Credentials
 
@@ -116,15 +126,21 @@ These are credentials setup by default:
 
 To create your Phalcon project, head over to the default working directory:
 
-    $ cd /vagrant/www
+```sh
+$ cd /vagrant/www
+```
 
 Then run the following command using the Phalcon Dev Tools to see your options:
 
-    $ phalcon
+```sh
+$ phalcon
+```
 
 To create a project type the following, I'll create one called `superstar` for this example:
 
-    $ phalcon project superstar
+```sh
+$ phalcon project superstar
+```
 
 This will create a folder called `superstar` with all your Phalcon files. At this
 point you have a folder at `/vagrant/www/superstar` and your VirtualHost will need
@@ -137,39 +153,50 @@ VirtualHost enabled, in our case it's the `vagrant.conf` enabled by default. The
 
 **Do not include a ServerPath for the base vagrant.conf VirtualHost.**
 
-    $ touch superstar.conf
+```sh
+$ touch superstar.conf
+```
 
 Then include the following data (Notice the two directory paths with `superstar`)
+```apache
+<VirtualHost *:80>
+    DocumentRoot /vagrant/www/superstar/public
+    ServerPath /superstar
+</VirtualHost>
 
-    <VirtualHost *:80>
-        DocumentRoot /vagrant/www/superstar/public
-        ServerPath /superstar
-    </VirtualHost>
-
-    <Directory "/vagrant/www/superstar/public">
-        Options Indexes Followsymlinks
-        AllowOverride All
-        Require all granted
-    </Directory>
+<Directory "/vagrant/www/superstar/public">
+    Options Indexes Followsymlinks
+    AllowOverride All
+    Require all granted
+</Directory>
+```
 
 Next move your VirtualHost configuration file to sites-available in Apache:
 
-    $ sudo mv superstar.conf /etc/apache2/sites-available
+```sh
+$ sudo mv superstar.conf /etc/apache2/sites-available
+```
 
 Lastly, you must enable your configuration file and restart apache
 
-    $ sudo a2ensite superstar
-    $ sudo service apache2 reload
+```sh
+$ sudo a2ensite superstar
+$ sudo service apache2 reload
+```
 
 If you wanted to disable a site:
 
-    $ sudo a2dissite superstar
-    $ sudo service apache2 reload
+```sh
+$ sudo a2dissite superstar
+$ sudo service apache2 reload
+```
 
 You should be able to access the following URL's:
 
-    http://192.168.50.4/
-    http://192.168.50.4/superstar
+```
+http://192.168.50.4/
+http://192.168.50.4/superstar
+```
 
 ## Local Editing
 
@@ -196,10 +223,11 @@ If you are using Linux such as Ubuntu, you may have to set a different IP that d
 
 If you are using the latest VirtualBox with Ubuntu 14, after installing guest additions (below), to fix the error message you will get due to a bug in the guest additions do the following after you run `$ vagrant up`.
 
-    $ vagrant ssh
-    $ sudo ln -s /opt/VBoxGuestAdditions-4.3.10/lib/VBoxGuestAdditions /usr/lib/VBoxGuestAdditions
-    $ vagrant reload
-
+```sh
+$ vagrant ssh
+$ sudo ln -s /opt/VBoxGuestAdditions-4.3.10/lib/VBoxGuestAdditions /usr/lib/VBoxGuestAdditions
+$ vagrant reload
+```
 
 ## Troubleshooting Phalcon
 
@@ -207,7 +235,9 @@ If you are having trouble with Phalcon in this Vagrant Project (Or on your live 
 
 If you are having problems with guest-additions on linux with mounting folders run this command in the guest machine:
 
+```sh
     $ sudo ln -s /opt/VBoxGuestAdditions-4.3.10/lib/VBoxGuestAdditions /usr/lib/VBoxGuestAdditions
+```
 
 ## Software Suggestions
 
@@ -218,3 +248,8 @@ For Windows, you can use [Git SCM](http://git-scm.com/) and Bash.
 
 [1]: http://vagrantup.com/
 [2]: https://phalconphp.com/
+[3]: https://github.com/phalcon/phalcon-devtools
+[4]: http://redis.io/
+[5]: https://www.mongodb.org/
+[6]: https://getcomposer.org
+[7]: https://www.virtualbox.org
