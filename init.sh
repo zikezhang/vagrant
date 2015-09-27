@@ -2,9 +2,10 @@
 # Using Trusty64 Ubuntu
 
 #
-# Add Phalcon repository
+# Add Phalcon & libsodium repositories
 #
 sudo apt-add-repository -y ppa:phalcon/stable
+sudo apt-add-repository -y ppa:chris-lea/libsodium
 sudo apt-get update
 
 #
@@ -71,8 +72,6 @@ cd zephir
 #
 # Libsodium
 #
-sudo apt-add-repository -y ppa:chris-lea/libsodium
-sudo apt-get update
 sudo apt-get install -y libsodium-dev
 sudo pecl install libsodium
 sudo touch /etc/php5/mods-available/libsodium.ini
