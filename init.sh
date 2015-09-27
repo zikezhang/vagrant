@@ -10,7 +10,7 @@ sudo apt-get update
 #
 # Setup locales
 #
-echo -e "LC_CTYPE=en_US.UTF-8\nLC_ALL=en_US.UTF-8\nLANG=en_US.UTF-8\nLANGUAGE=en_US.UTF-8" | sudo tee -a /etc/environmen
+echo -e "LC_CTYPE=en_US.UTF-8\nLC_ALL=en_US.UTF-8\nLANG=en_US.UTF-8\nLANGUAGE=en_US.UTF-8" | sudo tee -a /etc/environment
 sudo locale-gen en_US en_US.UTF-8
 sudo dpkg-reconfigure locales
 
