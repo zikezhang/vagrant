@@ -2,15 +2,16 @@
 # Using Trusty64 Ubuntu
 
 #
-# Add Phalcon repository
+# Add Phalcon & libsodium repositories
 #
 sudo apt-add-repository -y ppa:phalcon/stable
+sudo apt-add-repository -y ppa:chris-lea/libsodium
 sudo apt-get update
 
 #
 # Setup locales
 #
-echo -e "LC_CTYPE=en_US.UTF-8\nLC_ALL=en_US.UTF-8\nLANG=en_US.UTF-8\nLANGUAGE=en_US.UTF-8" | sudo tee -a /etc/environmen
+echo -e "LC_CTYPE=en_US.UTF-8\nLC_ALL=en_US.UTF-8\nLANG=en_US.UTF-8\nLANGUAGE=en_US.UTF-8" | sudo tee -a /etc/environment
 sudo locale-gen en_US en_US.UTF-8
 sudo dpkg-reconfigure locales
 
@@ -28,8 +29,12 @@ apt-get -q -y install mysql-server php5-mysql
 #
 # PHP
 #
-sudo apt-get install -y php5 php5-dev php-pear apache2 libapache2-mod-php5 libpcre3 libpcre3-dev
-sudo apt-get install -y php5-mcrypt php5-curl php5-intl xdebug
+sudo apt-get install -y php5 php5-cli php5-dev php-pear php5-mcrypt php5-curl php5-intl xdebug
+
+#
+# Apache
+#
+sudo apt-get install -y apache2 libapache2-mod-php5
 
 #
 # Apc
@@ -54,7 +59,23 @@ sudo apt-get -y install beanstalkd
 #
 # Utilities
 #
-sudo apt-get install -y curl htop git dos2unix vim grc
+sudo apt-get install -y curl htop git dos2unix unzip vim grc gcc make re2c libpcre3 libpcre3-dev
+
+#
+# Zephir
+#
+git clone https://github.com/phalcon/zephir
+cd zephir
+./install-json
+./install -c
+
+#
+# Libsodium
+#
+sudo apt-get install -y libsodium-dev
+sudo pecl install libsodium
+sudo touch /etc/php5/mods-available/libsodium.ini
+echo -e "extension=libsodium.so" | sudo tee -a /etc/php5/mods-available/libsodium.ini
 
 #
 # Redis
@@ -124,7 +145,7 @@ sudo rm -rf ~/vendor
 #
 # Enable PHP5 Mods
 #
-sudo php5enmod phalcon curl mcrypt intl
+sudo php5enmod phalcon curl mcrypt intl libsodium
 
 #
 # Update PHP Error Reporting
