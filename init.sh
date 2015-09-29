@@ -136,6 +136,8 @@ sudo mv composer.phar /usr/local/bin/composer
 cd ~
 echo '<VirtualHost *:80>
         DocumentRoot /vagrant/www
+        ErrorLog  /vagrant/www/projects-error.log
+        CustomLog /vagrant/www/projects-access.log combined
 </VirtualHost>
 
 <Directory "/vagrant/www">
