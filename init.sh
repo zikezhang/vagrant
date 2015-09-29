@@ -2,11 +2,17 @@
 # Using Trusty64 Ubuntu
 
 #
-# Add Phalcon & libsodium repositories
+# Add PHP, Phalcon, PostgreSQL and libsodium repositories
 #
+#sudo add-apt-repository -y ppa:ondrej/php5-5.6
 sudo apt-add-repository -y ppa:phalcon/stable
 sudo apt-add-repository -y ppa:chris-lea/libsodium
+sudo touch /etc/apt/sources.list.d/pgdg.list
+echo -e "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" | sudo tee -a /etc/apt/sources.list.d/pgdg.list
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+
 sudo apt-get update
+sudo apt-get install -y python-software-properties
 
 #
 # Setup locales
@@ -14,6 +20,10 @@ sudo apt-get update
 echo -e "LC_CTYPE=en_US.UTF-8\nLC_ALL=en_US.UTF-8\nLANG=en_US.UTF-8\nLANGUAGE=en_US.UTF-8" | sudo tee -a /etc/environment
 sudo locale-gen en_US en_US.UTF-8
 sudo dpkg-reconfigure locales
+
+export LANGUAGE=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 #
 # Hostname
@@ -29,7 +39,7 @@ apt-get -q -y install mysql-server php5-mysql
 #
 # PHP
 #
-sudo apt-get install -y php5 php5-cli php5-dev php-pear php5-mcrypt php5-curl php5-intl xdebug
+sudo apt-get install -y php5 php5-cli php5-dev php-pear php5-mcrypt php5-curl php5-intl php5-xdebug php5-gd php5-imagick
 
 #
 # Apache
@@ -52,6 +62,21 @@ sudo apt-get install -y memcached php5-memcached php5-memcache
 sudo apt-get install -y mongodb-clients mongodb-server php5-mongo
 
 #
+# PostgreSQl with postgres:postgres
+# but "psql -U postgres" command don't ask password
+#
+sudo apt-get install -y postgresql-9.4
+cp /etc/postgresql/9.4/main/pg_hba.conf /etc/postgresql/9.4/main/pg_hba.bkup.conf
+sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres'"
+sudo sed -i.bak -E 's/local\s+all\s+postgres\s+peer/local\t\tall\t\tpostgres\t\ttrust/g'  /etc/postgresql/9.4/main/pg_hba.conf
+sudo service postgresql restart
+
+#
+# SQLite
+#
+sudo apt-get -y install sqlite php5-sqlite
+
+#
 # Beanstalkd
 #
 sudo apt-get -y install beanstalkd
@@ -59,7 +84,7 @@ sudo apt-get -y install beanstalkd
 #
 # Utilities
 #
-sudo apt-get install -y curl htop git dos2unix unzip vim grc gcc make re2c libpcre3 libpcre3-dev
+sudo apt-get install -y curl htop git dos2unix unzip vim grc gcc make re2c libpcre3 libpcre3-dev lsb-core
 
 #
 # Zephir
@@ -74,8 +99,6 @@ cd zephir
 #
 sudo apt-get install -y libsodium-dev
 sudo pecl install libsodium
-sudo touch /etc/php5/mods-available/libsodium.ini
-echo -e "extension=libsodium.so" | sudo tee -a /etc/php5/mods-available/libsodium.ini
 
 #
 # Redis
@@ -130,6 +153,22 @@ sudo a2enmod rewrite
 sudo apt-get install -y php5-phalcon
 
 #
+# Enable PHP5 Mods
+#
+sudo touch /etc/php5/mods-available/curl.ini
+sudo touch /etc/php5/mods-available/mcrypt.ini
+sudo touch /etc/php5/mods-available/intl.ini
+sudo touch /etc/php5/mods-available/libsodium.ini
+sudo touch /etc/php5/mods-available/phalcon.ini
+echo -e "extension=curl.so" | sudo tee /etc/php5/mods-available/curl.ini
+echo -e "extension=mcrypt.so" | sudo tee /etc/php5/mods-available/mcrypt.ini
+echo -e "extension=intl.so" | sudo tee /etc/php5/mods-available/intl.ini
+echo -e "extension=libsodium.so" | sudo tee /etc/php5/mods-available/libsodium.ini
+echo -e "extension=phalcon.so" | sudo tee /etc/php5/mods-available/phalcon.ini
+sudo php5enmod phalcon curl mcrypt intl libsodium
+ls -l /etc/php5/mods-available/
+
+#
 # Install PhalconPHP DevTools
 #
 cd ~
@@ -141,11 +180,6 @@ sudo mkdir /opt/phalcon-tools
 sudo mv ~/vendor/phalcon/devtools/* /opt/phalcon-tools
 sudo ln -s /opt/phalcon-tools/phalcon.php /usr/bin/phalcon
 sudo rm -rf ~/vendor
-
-#
-# Enable PHP5 Mods
-#
-sudo php5enmod phalcon curl mcrypt intl libsodium
 
 #
 # Update PHP Error Reporting
