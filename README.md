@@ -24,7 +24,8 @@ to build a powerful PHP application focused on [Phalcon Framework][2].
 - [Software Suggestions](#software-suggestions)
 
 # Landing Page
-This is the default page for the Phalcon Vagrant Setup. This page will be empty at the beginning until you start adding VirtualHosts and content to the `/www/` folder. 
+This is the default page for the Phalcon Vagrant Setup. This page will be empty at the beginning until
+you start adding VirtualHosts and content to the `/www/` folder. 
 <img src="http://static.jream.com/img/github-phalcon-vagrant.jpg" alt="Phalcon Vagrant">
 
 ## Overview
@@ -32,9 +33,12 @@ This is the default page for the Phalcon Vagrant Setup. This page will be empty 
 We use the default Ubuntu trusty64 ISO from Vagrant for compatibility.
 If you choose to use a 64-bit ISO you may need to update your BIOS to enable virtualization with AMD-V or Intel VT.
 
-When you provision Vagrant for the first time it's always the longest procedure (`$ vagrant up`). Vagrant will download the entire Linux OS if you've never used Vagrant or the ubuntu/trusty64 Box. Afterwards, booting time is fast.
+When you provision Vagrant for the first time it's always the longest procedure (`$ vagrant up`).
+Vagrant will download the entire Linux OS if you've never used Vagrant or the ubuntu/trusty64 Box.
+Afterwards, booting time is fast.
 
-By default this setup uses 500MB RAM. You can change this in `Vagrantfile` and simply run `$ vagrant reload`. You can also use more than one core if you like, simply uncomment these two lines in the same file:
+By default this setup uses 500MB RAM. You can change this in `Vagrantfile` and simply run `$ vagrant reload`.
+You can also use more than one core if you like, simply uncomment these two lines in the same file:
 
 ```yaml
 v.customize ["modifyvm", :id, "--cpus", "2"]
@@ -45,17 +49,20 @@ v.customize ["modifyvm", :id, "--ioapic", "on"]
 
 - LAMP Stack
   - Ubuntu 14.04.3 LTS
-  - Apache 2
+  - Apache 2.4
   - PHP 5.5
   - MySQL 5.5
-- Git 1.9.1
-- Memcached 1.4.14
-- Beanstalkd 1.9
+- Git 1.9
+- Memcached 1.4
+- [Beanstalkd] 1.9
+- [Zephir][10] 0.8
+- [SQLite][8] 2.8
+- [PostgreSQL][9] 9.4
 - [Phalcon][2] (latest stable)
 - [Phalcon Dev Tools][3] (latest stable)
 - [Redis][4] 2.8
-- [MongoDB][5] 2.0.4
-- [Composer][6]
+- [MongoDB][5] 2.0
+- [Composer][6] (latest stable)
 
 ## Requirements
 
@@ -107,7 +114,8 @@ If you want to change your bound address (`192.168.50.4`), edit `Vagrantfile`, c
 $ vagrant reload
 ```
 
-If you want to point your Guest Machine (The Virtual Machine OS) to a friendly URL, you could modify your `etc/hosts` file and add the following:
+If you want to point your Guest Machine (The Virtual Machine OS) to a friendly URL,
+you could modify your `etc/hosts` file and add the following:
 
 ```
 192.168.50.4  your-server-name
@@ -149,7 +157,8 @@ to point to `/vagrant/www/superstar/public`
 ## Create a VHost Record
 
 You can have multiple Phalcon projects in subfolders. Make sure to keep your base
-VirtualHost enabled, in our case it's the `vagrant.conf` enabled by default. Then follow the instructions below and take note, you must include the `ServerPath /project/` in your VirtualHost's.
+VirtualHost enabled, in our case it's the `vagrant.conf` enabled by default.
+Then follow the instructions below and take note, you must include the `ServerPath /project/` in your VirtualHost's.
 
 **Do not include a ServerPath for the base vagrant.conf VirtualHost.**
 
@@ -221,7 +230,8 @@ So this simply means, if you edit things in the `www` folder you must run `sudo 
 If you are using Linux such as Ubuntu, you may have to set a different IP that doesn't interfere with DHCP in linux, here is a safe bet:
 - `192.168.50.4`
 
-If you are using the latest VirtualBox with Ubuntu 14, after installing guest additions (below), to fix the error message you will get due to a bug in the guest additions do the following after you run `$ vagrant up`.
+If you are using the latest VirtualBox with Ubuntu 14, after installing guest additions (below),
+to fix the error message you will get due to a bug in the guest additions do the following after you run `$ vagrant up`.
 
 ```sh
 $ vagrant ssh
@@ -231,7 +241,8 @@ $ vagrant reload
 
 ## Troubleshooting Phalcon
 
-If you are having trouble with Phalcon in this Vagrant Project (Or on your live server), try compiling in [safe mode](https://github.com/phalcon/cphalcon/issues/2336#issuecomment-40333421).
+If you are having trouble with Phalcon in this Vagrant Project (Or on your live server),
+try compiling in [safe mode](https://github.com/phalcon/cphalcon/issues/2336#issuecomment-40333421).
 
 If you are having problems with guest-additions on linux with mounting folders run this command in the guest machine:
 
@@ -253,3 +264,7 @@ For Windows, you can use [Git SCM](http://git-scm.com/) and Bash.
 [5]: https://www.mongodb.org/
 [6]: https://getcomposer.org
 [7]: https://www.virtualbox.org
+[8]: https://www.sqlite.org/
+[9]: http://www.postgresql.org/
+[10]: http://zephir-lang.com/
+[11]: http://kr.github.io/beanstalkd/
