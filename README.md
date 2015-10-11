@@ -54,7 +54,7 @@ v.customize ["modifyvm", :id, "--ioapic", "on"]
   - MySQL 5.5
 - Git 1.9
 - Memcached 1.4
-- [Beanstalkd] 1.9
+- [Beanstalkd][11] 1.9
 - [Zephir][10] 0.8
 - [SQLite][8] 2.8
 - [PostgreSQL][9] 9.4
