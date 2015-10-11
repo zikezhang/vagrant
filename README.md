@@ -67,8 +67,8 @@ v.customize ["modifyvm", :id, "--ioapic", "on"]
 ## Requirements
 
 - Operating System: Windows, Linux, or OSX.
-- [Virtualbox][7] version 4.3.*
-- [Vagrant][1] version 1.4.*
+- [Virtualbox][7] >= 4.3.10
+- [Vagrant][1] >= 1.4.1
 
 If you have issues with windows and vbguest additions, use the following versions:
 - Virtualbox version 4.2.*
