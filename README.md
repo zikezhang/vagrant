@@ -128,6 +128,7 @@ These are credentials setup by default:
 - **Host Address**: 192.168.50.4 _(Change in Vagrantfile if you like)_
 - **SSH**: vagrant / vagrant _(If root password fails, run `$ sudo passwd` and set one)_
 - **MySQL**: root / (none)
+- **PostgreSQL**: postgres / postgres _(We have disabled the password promt for `psql -U postgres` command)_
 - **Redis**: (none)
 
 ## Create a Phalcon Project
