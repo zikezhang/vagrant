@@ -1,10 +1,9 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
-VAGRANTFILE_API_VERSION = "2"
+# Don't touch unless you know what you're doing!
 
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+Vagrant.configure(2) do |config|
 
   # Base Box
   # --------------------
@@ -23,11 +22,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider :virtualbox do |v|
     # How much RAM to give the VM (in MB)
     # -----------------------------------
-    v.customize ["modifyvm", :id, "--memory", "500"]
+    v.customize ["modifyvm", :id, "--memory", "2048"]
 
-    # Uncomment the Bottom two lines to enable muli-core in the VM
-    #v.customize ["modifyvm", :id, "--cpus", "2"]
-    #v.customize ["modifyvm", :id, "--ioapic", "on"]
+    # Comment the bottom two lines to disable muli-core in the VM
+    v.customize ["modifyvm", :id, "--cpus", "2"]
+    v.customize ["modifyvm", :id, "--ioapic", "on"]
   end
 
   # Provisioning Script
