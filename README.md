@@ -51,7 +51,7 @@ v.customize ["modifyvm", :id, "--ioapic", "on"]
   - Ubuntu 14.04.3 LTS
   - Apache 2.4
   - PHP 5.5
-  - MySQL 5.5
+  - MySQL 5.6
 - Git 1.9
 - Memcached 1.4
 - [Beanstalkd][11] 1.9

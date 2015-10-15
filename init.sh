@@ -8,7 +8,7 @@
 sudo apt-add-repository -y ppa:phalcon/stable
 sudo apt-add-repository -y ppa:chris-lea/libsodium
 sudo touch /etc/apt/sources.list.d/pgdg.list
-echo -e "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" | sudo tee -a /etc/apt/sources.list.d/pgdg.list
+echo -e "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" | sudo tee -a /etc/apt/sources.list.d/pgdg.list > /dev/null
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 
 sudo apt-get update
@@ -17,7 +17,7 @@ sudo apt-get install -y python-software-properties
 #
 # Setup locales
 #
-echo -e "LC_CTYPE=en_US.UTF-8\nLC_ALL=en_US.UTF-8\nLANG=en_US.UTF-8\nLANGUAGE=en_US.UTF-8" | sudo tee -a /etc/environment
+echo -e "LC_CTYPE=en_US.UTF-8\nLC_ALL=en_US.UTF-8\nLANG=en_US.UTF-8\nLANGUAGE=en_US.UTF-8" | sudo tee -a /etc/environment > /dev/null
 sudo locale-gen en_US en_US.UTF-8
 sudo dpkg-reconfigure locales
 
@@ -34,7 +34,7 @@ sudo hostnamectl set-hostname phalcon-vm
 # MySQL with root:<no password>
 #
 export DEBIAN_FRONTEND=noninteractive
-apt-get -q -y install mysql-server php5-mysql
+apt-get -q -y install mysql-server-5.6 mysql-client-5.6 php5-mysql
 
 #
 # PHP
@@ -62,7 +62,7 @@ sudo apt-get install -y memcached php5-memcached php5-memcache
 sudo apt-get install -y mongodb-clients mongodb-server php5-mongo
 
 #
-# PostgreSQl with postgres:postgres
+# PostgreSQL with postgres:postgres
 # but "psql -U postgres" command don't ask password
 #
 sudo apt-get install -y postgresql-9.4
@@ -95,6 +95,13 @@ cd zephir
 ./install -c
 
 #
+# Install Phalcon Framework
+#
+git clone --depth=1 git://github.com/phalcon/cphalcon.git
+cd cphalcon/build
+sudo ./install
+
+#
 # Libsodium
 #
 sudo apt-get install -y libsodium-dev
@@ -103,7 +110,7 @@ sudo pecl install libsodium
 #
 # Redis
 #
-# Allow us to Remote from Vagrant with Port
+# Allow us to remote from Vagrant with port
 #
 sudo apt-get install -y redis-server redis-tools php5-redis
 sudo cp /etc/redis/redis.conf /etc/redis/redis.bkup.conf
@@ -111,15 +118,15 @@ sudo sed -i 's/bind 127.0.0.1/bind 0.0.0.0/' /etc/redis/redis.conf
 sudo /etc/init.d/redis-server restart
 
 #
-# MySQL Configuration
-# Allow us to Remote from Vagrant with Port
+# MySQL configuration
+# Allow us to remote from Vagrant with port
 #
 sudo cp /etc/mysql/my.cnf /etc/mysql/my.bkup.cnf
 # Note: Since the MySQL bind-address has a tab cahracter I comment out the end line
 sudo sed -i 's/bind-address/bind-address = 0.0.0.0#/' /etc/mysql/my.cnf
 
 #
-# Grant All Priveleges to ROOT for remote access
+# Grant all priveleges to root for remote access
 #
 mysql -u root -Bse "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '' WITH GRANT OPTION;"
 sudo service mysql restart
@@ -150,25 +157,13 @@ sudo mv vagrant.conf /etc/apache2/sites-available
 sudo a2enmod rewrite
 
 #
-# Install PhalconPHP
-#
-sudo apt-get install -y php5-phalcon
-
-#
 # Enable PHP5 Mods
 #
-sudo touch /etc/php5/mods-available/curl.ini
-sudo touch /etc/php5/mods-available/mcrypt.ini
-sudo touch /etc/php5/mods-available/intl.ini
 sudo touch /etc/php5/mods-available/libsodium.ini
 sudo touch /etc/php5/mods-available/phalcon.ini
-echo -e "extension=curl.so" | sudo tee /etc/php5/mods-available/curl.ini
-echo -e "extension=mcrypt.so" | sudo tee /etc/php5/mods-available/mcrypt.ini
-echo -e "extension=intl.so" | sudo tee /etc/php5/mods-available/intl.ini
-echo -e "extension=libsodium.so" | sudo tee /etc/php5/mods-available/libsodium.ini
-echo -e "extension=phalcon.so" | sudo tee /etc/php5/mods-available/phalcon.ini
+echo -e "extension=libsodium.so" | sudo tee /etc/php5/mods-available/libsodium.ini > /dev/null
+echo -e "extension=phalcon.so" | sudo tee /etc/php5/mods-available/phalcon.ini > /dev/null
 sudo php5enmod phalcon curl mcrypt intl libsodium
-ls -l /etc/php5/mods-available/
 
 #
 # Install PhalconPHP DevTools
@@ -209,7 +204,7 @@ echo -e "----------------------------------------"
 echo -e "To create a Phalcon Project:\n"
 echo -e "----------------------------------------"
 echo -e "$ cd /vagrant/www"
-echo -e "$ phalcon project projectname\n"
+echo -e "$ phalcon project <projectname>\n"
 echo -e
 echo -e "Then follow the README.md to copy/paste the VirtualHost!\n"
 
