@@ -166,7 +166,7 @@ echo -e "extension=phalcon.so" | sudo tee /etc/php5/mods-available/phalcon.ini >
 sudo php5enmod phalcon curl mcrypt intl libsodium
 
 #
-# Install PhalconPHP DevTools
+# Install Phalcon DevTools
 #
 cd ~
 echo '{"require": {"phalcon/devtools": "dev-master"}}' > composer.json
@@ -175,8 +175,11 @@ rm composer.json
 
 sudo mkdir /opt/phalcon-tools
 sudo mv ~/vendor/phalcon/devtools/* /opt/phalcon-tools
-sudo ln -s /opt/phalcon-tools/phalcon.php /usr/bin/phalcon
 sudo rm -rf ~/vendor
+echo "export PTOOLSPATH=/opt/phalcon-tools/" >> /home/vagrant/.profile
+echo "export PATH=\$PATH:/opt/phalcon-tools/" >> /home/vagrant/.profile
+sudo chmod +x /opt/phalcon-tools/phalcon.sh
+sudo ln -s /opt/phalcon-tools/phalcon.sh /usr/bin/phalcon
 
 #
 # Update PHP Error Reporting
