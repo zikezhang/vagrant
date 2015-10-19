@@ -1,9 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Phalcon Vagrant</title>
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link href='//fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
     <style>
     body {
@@ -28,7 +30,6 @@
         color: #fff;
     }
     .intro {
-        background: #f9fbfb;
         padding: 15px;
         margin-bottom: 15px;
     }
@@ -38,22 +39,21 @@
     .btn-default, .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open>.dropdown-toggle.btn-default {
         border: none !important;
     }
-    .directory li {
-        font-size: 18px;
-        margin-bottom: 5px;
+    .file-list {
+        font-size: 16px;
     }
-    .directory li a {
+    .file-list a {
         padding: 2px 10px;
     }
-    .directory li a:hover {
+    .file-list a:hover {
         background: #2a6496;
         color: #fff;
         text-decoration: none;
     }
-    .directory li a.file {
+    .file-list a.file {
         color: #7f8c8d;
     }
-    .directory li a.file:hover {
+    .file-list a.file:hover {
         background: #7f8c8d;
         color: #fff;
     }
@@ -62,7 +62,7 @@
 <body>
 
     <div class="header">
-    <div class="container">
+        <div class="container">
             <div class="col-md-4">
                 <h3 class="text-center">Phalcon Vagrant</h3>
             </div>
@@ -73,55 +73,86 @@
                     <a class="btn btn-md btn-default" target="_blank" href="http://forum.phalconphp.com/" role="button"><span class="glyphicon glyphicon-comment"></span> Forums</a>
                 </p>
             </div>
-    </div>
-    </div>
-
-    <div class="intro">
-        <div class="container">
-            <p>
-            To add a VirtualHosts, checkout the <code>readme.md</code> file. Projects go in <code>www/&lt;project-name&gt;/</code>
-            </p>
         </div>
     </div>
 
+    <div class="intro"></div>
+
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
-                <ul class="list-unstyled directory">
+            <div class="col-md-12">
                 <?php
-                $dir = new DirectoryIterator(dirname(__FILE__));
-                $types = [
-                    'dir' => [],
-                    'file' => []
-                ];
+                    $dir = new DirectoryIterator(dirname(__FILE__));
+                    $types = [
+                        'folder-close' => [],
+                        'file'   => [],
+                    ];
 
-                foreach ($dir as $fileinfo)
-                {
-                    if ($fileinfo->isDot()) {
-                        continue;
-                    }
+                    foreach ($dir as $fileinfo)
+                    {
+                        if ($fileinfo->isDot()) {
+                            continue;
+                        }
 
-                    if (is_dir($fileinfo->getFilename())) {
-                        $types['dir'][] = "<li><a class='dir' href='{$fileinfo->getFilename()}'><span class='glyphicon glyphicon-folder-close'></span> {$fileinfo->getFilename()}</a></li>";
-                        continue;
+                        if (is_dir($fileinfo->getFilename())) {
+                            $types['folder-close'][$fileinfo->getFilename()] = [$fileinfo->getOwner(), $fileinfo->getGroup(), $fileinfo->getPerms()];
+                            
+                            continue;
+                        }
+                        if ($fileinfo->getType = 'file') {
+                            $types['file'][$fileinfo->getFilename()] = [$fileinfo->getOwner(), $fileinfo->getGroup(), $fileinfo->getPerms()];
+                            continue;
+                        }
                     }
-                    if ($fileinfo->getType = 'file') {
-                        $types['file'][] = "<li><a class='file' href='{$fileinfo->getFilename()}'><span class='glyphicon glyphicon glyphicon-file'></span> {$fileinfo->getFilename()}</a></li>";
-                        continue;
-                    }
-                }
-
-                foreach ($types as $type)
-                {
-                    sort($type);
-                    // List Directories and Files
-                    foreach ($type as $section) {
-                        echo $section;
-                    }
-                }
-
                 ?>
-                </ul>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Project manager</div>
+                    <div class="panel-body" style="background-color:#f9fbfb">
+                        <p>
+                            To add a VirtualHosts, checkout the <code>README.md</code> file. Projects go in <code>www/&lt;project-name&gt;/</code>
+                        </p>
+                    </div>
+
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>File name</th>
+                                <th>Owner</th>
+                                <th>Group</th>
+                                <th>Permissions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="file-list">
+                            <?php foreach ($types as $type => $content): ?>
+                                <?php ksort($content); ?>
+                                <?php foreach ($content as $name => $options): ?>
+                                    <tr>
+                                        <td>
+                                            <a class="<?php echo $type ?>" href="<?php echo $name ?>">
+                                                <span class="glyphicon glyphicon glyphicon-<?php echo $type ?>"></span>
+                                                <?php echo $name ?>
+                                            </a>
+                                        </td>
+                                        <?php
+                                            list($owner, $group, $perms) = $options;
+                                            $owner = posix_getpwuid($owner);
+                                            $group = posix_getgrgid($group);
+                                        ?>
+                                        <td>
+                                            <?php echo $owner['name'] ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $group['name']; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo substr(sprintf('%o', $perms), -4); ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
