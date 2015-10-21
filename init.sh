@@ -45,7 +45,7 @@ apt-get install -y apache2 libapache2-mod-php5
 #
 # PHP
 #
-apt-get install -y php5 php5-cli php5-dev php-pear php5-mcrypt php5-curl php5-intl php5-xdebug php5-gd php5-imagick
+apt-get install -y php5 php5-cli php5-dev php-pear php5-mcrypt php5-curl php5-intl php5-xdebug php5-gd php5-imagick php5-imap php5-mhash php5-xsl
 php5enmod mcrypt intl curl
 
 #
@@ -68,7 +68,7 @@ apt-get install -y mongodb-clients mongodb-server php5-mongo
 # PostgreSQL with postgres:postgres
 # but "psql -U postgres" command don't ask password
 #
-apt-get install -y postgresql-9.4
+apt-get install -y postgresql-9.4 php5-pgsql
 cp /etc/postgresql/9.4/main/pg_hba.conf /etc/postgresql/9.4/main/pg_hba.bkup.conf
 sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres'" > /dev/null 
 sed -i.bak -E 's/local\s+all\s+postgres\s+peer/local\t\tall\t\tpostgres\t\ttrust/g' /etc/postgresql/9.4/main/pg_hba.conf
