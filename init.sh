@@ -11,8 +11,9 @@ touch /etc/apt/sources.list.d/pgdg.list
 echo -e "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" | tee -a /etc/apt/sources.list.d/pgdg.list > /dev/null
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 
+rm /var/lib/apt/lists/* -vf
 apt-get update
-apt-get install -y python-software-properties
+apt-get install -y build-essential software-properties-common python-software-properties
 
 #
 # Setup locales
@@ -48,6 +49,9 @@ apt-get install -y apache2 libapache2-mod-php5
 apt-get install -y php5 php5-cli php5-dev php-pear php5-mcrypt php5-curl php5-intl php5-xdebug php5-gd php5-imagick php5-imap php5-mhash php5-xsl
 php5enmod mcrypt intl curl
 
+# Update PECL channel
+pecl channel-update pecl.php.net
+
 #
 # Apc
 #
@@ -62,7 +66,9 @@ apt-get install -y memcached php5-memcached php5-memcache
 #
 # MongoDB
 #
-apt-get install -y mongodb-clients mongodb-server php5-mongo
+apt-get install -y mongodb-clients mongodb-server
+pecl install mongo < /dev/null &
+echo 'extension = mongo.so' | tee /etc/php5/mods-available/mongo.ini > /dev/null
 
 #
 # PostgreSQL with postgres:postgres
@@ -88,20 +94,20 @@ apt-get -y install beanstalkd
 # YAML
 #
 apt-get install libyaml-dev
-printf "\n" | pecl install -a yaml
-echo 'extension=yaml.so' | tee /etc/php5/mods-available/yaml.ini > /dev/null
+(CFLAGS="-O1 -g3 -fno-strict-aliasing"; pecl install yaml < /dev/null &)
+echo 'extension = yaml.so' | tee /etc/php5/mods-available/yaml.ini > /dev/null
 php5enmod yaml
 
 #
 # Utilities
 #
-apt-get install -y curl htop git dos2unix unzip vim grc gcc make re2c libpcre3 libpcre3-dev lsb-core
+apt-get install -y curl htop git dos2unix unzip vim grc gcc make re2c libpcre3 libpcre3-dev lsb-core autoconf
 
 #
 # Libsodium
 #
 apt-get install -y libsodium-dev
-printf "\n" | pecl install -a libsodium
+pecl install -a libsodium < /dev/null &
 echo 'extension=libsodium.so' | tee /etc/php5/mods-available/libsodium.ini > /dev/null
 php5enmod libsodium
 
