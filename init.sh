@@ -11,7 +11,7 @@ touch /etc/apt/sources.list.d/pgdg.list
 echo -e "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" | tee -a /etc/apt/sources.list.d/pgdg.list > /dev/null
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 
-rm /var/lib/apt/lists/* -vf
+rm /var/lib/apt/lists/* -f
 apt-get update
 apt-get install -y build-essential software-properties-common python-software-properties
 
@@ -76,7 +76,7 @@ echo 'extension = mongo.so' | tee /etc/php5/mods-available/mongo.ini > /dev/null
 #
 apt-get install -y postgresql-9.4 php5-pgsql
 cp /etc/postgresql/9.4/main/pg_hba.conf /etc/postgresql/9.4/main/pg_hba.bkup.conf
-sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres'" > /dev/null 
+sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'postgres'" > /dev/null
 sed -i.bak -E 's/local\s+all\s+postgres\s+peer/local\t\tall\t\tpostgres\t\ttrust/g' /etc/postgresql/9.4/main/pg_hba.conf
 service postgresql restart
 
@@ -143,11 +143,11 @@ service redis-server restart
 # Allow us to remote from Vagrant with port
 #
 cp /etc/mysql/my.cnf /etc/mysql/my.bkup.cnf
-# Note: Since the MySQL bind-address has a tab cahracter I comment out the end line
+# Note: Since the MySQL bind-address has a tab character I comment out the end line
 sed -i 's/bind-address/bind-address = 0.0.0.0#/' /etc/mysql/my.cnf
 
 #
-# Grant all priveleges to root for remote access
+# Grant all privilege to root for remote access
 #
 mysql -u root -Bse "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '' WITH GRANT OPTION;"
 service mysql restart

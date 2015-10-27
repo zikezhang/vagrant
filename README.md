@@ -1,11 +1,11 @@
 # Vagrant Phalcon
 
 Phalcon strives to get closer to developers, providing flexible, powerful and simple tools.
-We would like a Phalcon development process to be effortless and pleaseant
+We would like a Phalcon development process to be effortless and pleasant
 from deployment of the development environment to the programming in Zephir language.
 
 [Vagrant][1] provides a simple, elegant way to manage and provision Virtual Machines and
-this is a *recomended* Vagrant setup to get loaded with core development tools
+this is a *recommended* Vagrant setup to get loaded with core development tools
 to build a powerful PHP application focused on [Phalcon Framework][2].
 
 ## Index
