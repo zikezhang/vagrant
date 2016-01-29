@@ -122,8 +122,7 @@ cd zephir
 # Install Phalcon Framework
 #
 git clone --depth=1 git://github.com/phalcon/cphalcon.git
-cd cphalcon/build
-./install
+zephir build
 echo -e "extension=phalcon.so" | tee /etc/php5/mods-available/phalcon.ini > /dev/null
 php5enmod phalcon
 
