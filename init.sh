@@ -116,7 +116,6 @@ php5enmod libsodium
 #
 git clone --depth=1 git://github.com/phalcon/zephir.git
 cd zephir
-./install-json
 ./install -c
 
 #
