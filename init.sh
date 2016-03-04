@@ -83,7 +83,7 @@ service postgresql restart
 #
 # SQLite
 #
-apt-get -y install sqlite php5-sqlite
+apt-get -y install sqlite3 php5-sqlite
 
 #
 # Beanstalkd
