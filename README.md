@@ -25,7 +25,7 @@ to build a powerful PHP application focused on [Phalcon Framework][2].
 
 # Landing Page
 This is the default page for the Phalcon Vagrant Setup. This page will be empty at the beginning until
-you start adding VirtualHosts and content to the `/www/` folder. 
+you start adding VirtualHosts and content to the `/www/` folder.
 <img src="http://static.jream.com/img/github-phalcon-vagrant.jpg" alt="Phalcon Vagrant">
 
 ## Overview
@@ -37,7 +37,7 @@ When you provision Vagrant for the first time it's always the longest procedure 
 Vagrant will download the entire Linux OS if you've never used Vagrant or the ubuntu/trusty64 Box.
 Afterwards, booting time is fast.
 
-By default this setup uses 500MB RAM. You can change this in `Vagrantfile` and simply run `$ vagrant reload`.
+By default this setup uses 2 GB. You can change this in `Vagrantfile` and simply run `$ vagrant reload`.
 You can also use more than one core if you like, simply uncomment these two lines in the same file:
 
 ```yaml
@@ -210,7 +210,7 @@ http://192.168.50.4/superstar
 
 ## Local Editing
 
-On your Host computer open any file explorer or IDE and navigate to `/www/`. 
+On your Host computer open any file explorer or IDE and navigate to `/www/`.
 This folder is mounted to the Virtual Machine. Any changes to files within here will reflect
 realtime changes in the Virtual Machine.
 
