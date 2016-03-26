@@ -31,7 +31,8 @@ you start adding VirtualHosts and content to the `/www/` folder.
 ## Overview
 
 We use the default Ubuntu trusty64 ISO from Vagrant for compatibility.
-If you choose to use a 64-bit ISO you may need to update your BIOS to enable virtualization with AMD-V or Intel VT.
+If you choose to use a 64-bit ISO you may need to update your BIOS to enable [virtualization][12] with AMD-V,
+Intel VT-x or VIA VT.
 
 When you provision Vagrant for the first time it's always the longest procedure (`$ vagrant up`).
 Vagrant will download the entire Linux OS if you've never used Vagrant or the ubuntu/trusty64 Box.
@@ -228,7 +229,8 @@ So this simply means, if you edit things in the `www` folder you must run `sudo 
 
 ## Troubleshooting Vagrant Ubuntu
 
-If you are using Linux such as Ubuntu, you may have to set a different IP that doesn't interfere with DHCP in linux, here is a safe bet:
+If you are using Linux such as Ubuntu, you may have to set a different IP that doesn't interfere with DHCP in linux,
+here is a safe bet:
 - `192.168.50.4`
 
 If you are using the latest VirtualBox with Ubuntu 14, after installing guest additions (below),
@@ -248,7 +250,7 @@ try compiling in [safe mode](https://github.com/phalcon/cphalcon/issues/2336#iss
 If you are having problems with guest-additions on linux with mounting folders run this command in the guest machine:
 
 ```sh
-    $ sudo ln -s /opt/VBoxGuestAdditions-4.3.10/lib/VBoxGuestAdditions /usr/lib/VBoxGuestAdditions
+$ sudo ln -s /opt/VBoxGuestAdditions-4.3.10/lib/VBoxGuestAdditions /usr/lib/VBoxGuestAdditions
 ```
 
 ## Software Suggestions
@@ -269,3 +271,4 @@ For Windows, you can use [Git SCM](http://git-scm.com/) and Bash.
 [9]: http://www.postgresql.org/
 [10]: http://zephir-lang.com/
 [11]: http://kr.github.io/beanstalkd/
+[12]: https://en.wikipedia.org/wiki/X86_virtualization
