@@ -1,17 +1,22 @@
 #!/bin/bash
 # Using Trusty64 Ubuntu
 
+export DEBIAN_FRONTEND=noninteractive
+
 #
 # Add PHP, Phalcon, PostgreSQL and libsodium repositories
 #
-#sudo add-apt-repository -y ppa:ondrej/php5-5.6
+LC_ALL=en_US.UTF-8 add-apt-repository -y ppa:ondrej/php5-5.6
 apt-add-repository -y ppa:phalcon/stable
 apt-add-repository -y ppa:chris-lea/libsodium
 touch /etc/apt/sources.list.d/pgdg.list
 echo -e "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" | tee -a /etc/apt/sources.list.d/pgdg.list > /dev/null
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 
-rm /var/lib/apt/lists/* -f
+# Cleanup package manager
+apt-get clean
+rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 apt-get update
 apt-get install -y build-essential software-properties-common python-software-properties
 
@@ -34,7 +39,7 @@ hostnamectl set-hostname phalcon-vm
 #
 # MySQL with root:<no password>
 #
-export DEBIAN_FRONTEND=noninteractive
+
 apt-get -q -y install mysql-server-5.6 mysql-client-5.6 php5-mysql
 
 #
@@ -115,14 +120,13 @@ php5enmod libsodium
 # Zephir
 #
 git clone --depth=1 git://github.com/phalcon/zephir.git
-cd zephir
-./install -c
+(cd zephir && ./install -c)
 
 #
 # Install Phalcon Framework
 #
 git clone --depth=1 git://github.com/phalcon/cphalcon.git
-zephir build
+(cd cphalcon && zephir build)
 echo -e "extension=phalcon.so" | tee /etc/php5/mods-available/phalcon.ini > /dev/null
 php5enmod phalcon
 
@@ -180,41 +184,44 @@ a2enmod rewrite
 # Install Phalcon DevTools
 #
 cd ~
+php5dismod xdebug
 echo '{"require": {"phalcon/devtools": "dev-master"}}' > composer.json
 composer install
 rm composer.json
+php5enmod xdebug
 
-sudo mkdir /opt/phalcon-tools
-sudo mv ~/vendor/phalcon/devtools/* /opt/phalcon-tools
-sudo rm -rf ~/vendor
+mkdir /opt/phalcon-tools
+mv ~/vendor/phalcon/devtools/* /opt/phalcon-tools
+rm -rf ~/vendor
 echo "export PTOOLSPATH=/opt/phalcon-tools/" >> /home/vagrant/.profile
 echo "export PATH=\$PATH:/opt/phalcon-tools/" >> /home/vagrant/.profile
-sudo chmod +x /opt/phalcon-tools/phalcon.sh
-sudo ln -s /opt/phalcon-tools/phalcon.sh /usr/bin/phalcon
+chmod +x /opt/phalcon-tools/phalcon.sh
+ln -s /opt/phalcon-tools/phalcon.sh /usr/bin/phalcon
 
 #
 # Update PHP Error Reporting
 #
-sudo sed -i 's/short_open_tag = Off/short_open_tag = On/' /etc/php5/apache2/php.ini
-sudo sed -i 's/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/error_reporting = E_ALL/' /etc/php5/apache2/php.ini
-sudo sed -i 's/display_errors = Off/display_errors = On/' /etc/php5/apache2/php.ini
+sed -i 's/short_open_tag = Off/short_open_tag = On/' /etc/php5/apache2/php.ini
+sed -i 's/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/error_reporting = E_ALL/' /etc/php5/apache2/php.ini
+sed -i 's/display_errors = Off/display_errors = On/' /etc/php5/apache2/php.ini
 #  Append session save location to /tmp to prevent errors in an odd situation..
-sudo sed -i '/\[Session\]/a session.save_path = "/tmp"' /etc/php5/apache2/php.ini
+sed -i '/\[Session\]/a session.save_path = "/tmp"' /etc/php5/apache2/php.ini
 
 #
 # Reload apache
 #
-sudo a2ensite vagrant
-sudo a2dissite 000-default
-sudo service apache2 restart
-sudo service mongodb restart
+a2ensite vagrant
+a2dissite 000-default
+service apache2 restart
+service mongodb restart
 
 #
 #  Cleanup
 #
-sudo apt-get autoremove -y
+apt-get autoremove -y
+apt-get autoclean -y
 
-sudo usermod -a -G www-data vagrant
+usermod -a -G www-data vagrant
 
 echo -e "----------------------------------------"
 echo -e "To create a Phalcon Project:\n"

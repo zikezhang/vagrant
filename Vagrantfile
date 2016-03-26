@@ -16,26 +16,35 @@ Vagrant.configure(2) do |config|
 
   # Forward to Port
   # --------------------
-  #config.vm.network :forwarded_port, guest: 80, host: 8080
+  config.vm.network :forwarded_port, guest: 3306, host: 3306, auto_correct: true
 
   # Optional (Remove if desired)
-  config.vm.provider :virtualbox do |v|
-    # How much RAM to give the VM (in MB)
-    # -----------------------------------
-    v.customize ["modifyvm", :id, "--memory", "2048"]
-
-    # Comment the bottom two lines to disable muli-core in the VM
-    v.customize ["modifyvm", :id, "--cpus", "2"]
-    v.customize ["modifyvm", :id, "--ioapic", "on"]
+  # --------------------
+  config.vm.provider :virtualbox do |vb|
+    vb.customize [
+      "modifyvm", :id,
+      "--memory", "2048",             # How much RAM to give the VM (in MB)
+      "--cpus", "2",                  # Muli-core in the VM
+      "--ioapic", "on",
+      "--natdnshostresolver1", "on",
+      "--natdnsproxy1", "on"
+    ]
   end
 
-  # Provisioning Script
+  # If true, agent forwarding over SSH connections is enabled
   # --------------------
-  config.vm.provision "shell", path: "init.sh"
+  config.ssh.forward_agent = true
 
-  # Synced Folder
+  # The shell to use when executing SSH commands from Vagrant
+  # --------------------
+  config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
+
+  # Synced Folders
   # --------------------
   config.vm.synced_folder ".", "/vagrant/", :mount_options => [ "dmode=777", "fmode=666" ]
   config.vm.synced_folder "./www", "/vagrant/www/", :mount_options => [ "dmode=775", "fmode=644" ], :owner => 'www-data', :group => 'www-data'
 
+  # Provisioning Scripts
+  # --------------------
+  config.vm.provision "shell", path: "init.sh"
 end
