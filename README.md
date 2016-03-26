@@ -48,20 +48,20 @@ v.customize ["modifyvm", :id, "--ioapic", "on"]
 ## Packages Included
 
 - LAMP Stack
-  - Ubuntu 14.04.3 LTS
+  - Ubuntu 14.04.4 LTS
   - Apache 2.4
-  - PHP 5.5
-  - MySQL 5.6
-- Git 1.9
+  - PHP 5.6.19
+  - MySQL 5.6.28
+- Git 1.9.1
 - Memcached 1.4
 - [Beanstalkd][11] 1.9
-- [Zephir][10] 0.8
-- [SQLite][8] 2.8
-- [PostgreSQL][9] 9.4
+- [Zephir][10] 0.9.2a-dev
+- [SQLite][8] 3.8.2
+- [PostgreSQL][9] 9.4.6
 - [Phalcon][2] (latest stable)
 - [Phalcon Dev Tools][3] (latest stable)
-- [Redis][4] 2.8
-- [MongoDB][5] 2.0
+- [Redis][4] 2.8.4
+- [MongoDB][5] 2.4.9
 - [Composer][6] (latest stable)
 
 ## Requirements
