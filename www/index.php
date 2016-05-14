@@ -85,21 +85,24 @@
                     $dir = new DirectoryIterator(dirname(__FILE__));
                     $types = [
                         'folder-close' => [],
-                        'file'   => [],
+                        'file'         => [],
                     ];
 
-                    foreach ($dir as $fileinfo)
-                    {
+                    foreach ($dir as $fileinfo) {
                         if ($fileinfo->isDot()) {
+                            continue;
+                        }
+
+                        if ($fileinfo->isFile() && preg_match('#(?:access|error)\.log$#', $fileinfo->getBasename())) {
                             continue;
                         }
 
                         if (is_dir($fileinfo->getFilename())) {
                             $types['folder-close'][$fileinfo->getFilename()] = [$fileinfo->getOwner(), $fileinfo->getGroup(), $fileinfo->getPerms()];
-                            
                             continue;
                         }
-                        if ($fileinfo->getType = 'file') {
+
+                        if ($fileinfo->getType() == 'file') {
                             $types['file'][$fileinfo->getFilename()] = [$fileinfo->getOwner(), $fileinfo->getGroup(), $fileinfo->getPerms()];
                             continue;
                         }
