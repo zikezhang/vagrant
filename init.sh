@@ -1,23 +1,23 @@
 #!/bin/bash
-# Using Trusty64 Ubuntu
 
 export DEBIAN_FRONTEND=noninteractive
 
 #
-# Add PHP, Phalcon, PostgreSQL and libsodium repositories
+# Add PHP and PostgreSQL repositories
 #
 LC_ALL=en_US.UTF-8 add-apt-repository -y ppa:ondrej/php5-5.6
-apt-add-repository -y ppa:phalcon/stable
 apt-add-repository -y ppa:chris-lea/libsodium
+add-apt-repository -y ppa:chris-lea/redis-server
 touch /etc/apt/sources.list.d/pgdg.list
-echo -e "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" | tee -a /etc/apt/sources.list.d/pgdg.list > /dev/null
+echo -e "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" | tee -a /etc/apt/sources.list.d/pgdg.list &>/dev/null
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 
 # Cleanup package manager
 apt-get clean
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-apt-get update
+apt-key update
+apt-get update -qq
 apt-get install -y build-essential software-properties-common python-software-properties
 
 #
@@ -39,7 +39,6 @@ hostnamectl set-hostname phalcon-vm
 #
 # MySQL with root:<no password>
 #
-
 apt-get -q -y install mysql-server-5.6 mysql-client-5.6 php5-mysql
 
 #
@@ -178,7 +177,6 @@ echo '<VirtualHost *:80>
 
 mv vagrant.conf /etc/apache2/sites-available
 a2enmod rewrite
-
 
 #
 # Install Phalcon DevTools
