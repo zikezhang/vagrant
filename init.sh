@@ -206,6 +206,12 @@ sed -i 's/display_errors = Off/display_errors = On/' /etc/php5/apache2/php.ini
 sed -i '/\[Session\]/a session.save_path = "/tmp"' /etc/php5/apache2/php.ini
 
 #
+# Fix permissions
+#
+sed -i 's/export APACHE_RUN_USER=www-data/export APACHE_RUN_USER=vagrant/' /etc/apache2/envvars
+sed -i 's/export APACHE_RUN_GROUP=www-data/export APACHE_RUN_GROUP=vagrant/' /etc/apache2/envvars
+
+#
 # Reload apache
 #
 a2ensite vagrant
@@ -218,8 +224,6 @@ service mongodb restart
 #
 apt-get autoremove -y
 apt-get autoclean -y
-
-usermod -a -G www-data vagrant
 
 echo -e "----------------------------------------"
 echo -e "To create a Phalcon Project:\n"
