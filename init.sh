@@ -7,14 +7,16 @@ export DEBIAN_FRONTEND=noninteractive
 #
 LC_ALL=en_US.UTF-8 add-apt-repository -y ppa:ondrej/php5-5.6
 apt-add-repository -y ppa:chris-lea/libsodium
+add-apt-repository -y ppa:chris-lea/redis-server
 touch /etc/apt/sources.list.d/pgdg.list
-echo -e "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" | tee -a /etc/apt/sources.list.d/pgdg.list > /dev/null
+echo -e "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" | tee -a /etc/apt/sources.list.d/pgdg.list &>/dev/null
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 
 # Cleanup package manager
 apt-get clean
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+apt-key update
 apt-get update -qq
 apt-get install -y build-essential software-properties-common python-software-properties
 
