@@ -129,7 +129,7 @@ These are credentials setup by default:
 - **Host Address**: 192.168.50.4 _(Change in Vagrantfile if you like)_
 - **SSH**: vagrant / vagrant _(If root password fails, run `$ sudo passwd` and set one)_
 - **MySQL**: root / (none)
-- **PostgreSQL**: postgres / postgres _(We have disabled the password promt for `psql -U postgres` command)_
+- **PostgreSQL**: postgres / postgres _(We have disabled the password prompt for `psql -U postgres` command)_
 - **Redis**: (none)
 
 ## Create a Phalcon Project
@@ -220,12 +220,8 @@ This way you will not have to import keys into your Virtual Machine.
 
 ## Using SSH
 
-Files in the shared directory of `www` are by default given ownership of `www-data:www-data` so
-that you will have no problems with saving cached files. Even with the `vagrant` user within
-the `www-data` group, and even with `0777` write permissions I could't get the cache to save.
-
-So this simply means, if you edit things in the `www` folder you must run `sudo command` to do so.
-
+Files in the shared directory of `www` are by default given ownership of `vagrant:vagrant` so
+that you will have no problems with saving cached files.
 
 ## Troubleshooting Vagrant Ubuntu
 

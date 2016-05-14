@@ -5,59 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Phalcon Vagrant</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <link href='//fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
-    <style>
-    body {
-        padding-bottom: 20px;
-        font-family: Roboto, arial, sans-serif;
-    }
-
-    @media (min-width: 768px) {
-        .container {
-            max-width: 730px;
-        }
-    }
-    .header {
-        background: #2a6496;
-        padding-top: 20px;
-    }
-    .header h3 {
-        padding-bottom: 12px;
-        margin-top: 0;
-        margin-bottom: 0;
-        line-height: 40px;
-        color: #fff;
-    }
-    .intro {
-        padding: 15px;
-        margin-bottom: 15px;
-    }
-    .intro p {
-        margin-bottom: 0;
-    }
-    .btn-default, .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open>.dropdown-toggle.btn-default {
-        border: none !important;
-    }
-    .file-list {
-        font-size: 16px;
-    }
-    .file-list a {
-        padding: 2px 10px;
-    }
-    .file-list a:hover {
-        background: #2a6496;
-        color: #fff;
-        text-decoration: none;
-    }
-    .file-list a.file {
-        color: #7f8c8d;
-    }
-    .file-list a.file:hover {
-        background: #7f8c8d;
-        color: #fff;
-    }
-    </style>
+    <link rel="stylesheet" href=".manager/style.css">
 </head>
 <body>
 
@@ -86,14 +36,22 @@
                     $types = [
                         'folder-close' => [],
                         'file'         => [],
+                        'hidden'       => [],
                     ];
 
                     foreach ($dir as $fileinfo) {
                         if ($fileinfo->isDot()) {
+                            $types['hidden'][$fileinfo->getFilename()] = [$fileinfo->getOwner(), $fileinfo->getGroup(), $fileinfo->getPerms()];
                             continue;
                         }
 
                         if ($fileinfo->isFile() && preg_match('#(?:access|error)\.log$#', $fileinfo->getBasename())) {
+                            $types['hidden'][$fileinfo->getFilename()] = [$fileinfo->getOwner(), $fileinfo->getGroup(), $fileinfo->getPerms()];
+                            continue;
+                        }
+
+                        if ($fileinfo->isDir() && $fileinfo->getBasename() == '.manager') {
+                            $types['hidden'][$fileinfo->getFilename()] = [$fileinfo->getOwner(), $fileinfo->getGroup(), $fileinfo->getPerms()];
                             continue;
                         }
 
@@ -127,6 +85,9 @@
                         </thead>
                         <tbody class="file-list">
                             <?php foreach ($types as $type => $content): ?>
+                                <?php if ($type == 'hidden'): ?>
+                                    <?php continue; ?>
+                                <?php endif; ?>
                                 <?php ksort($content); ?>
                                 <?php foreach ($content as $name => $options): ?>
                                     <tr>
@@ -160,5 +121,6 @@
         </div>
     </div>
 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </body>
 </html>
