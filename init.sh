@@ -3,6 +3,14 @@
 export DEBIAN_FRONTEND=noninteractive
 
 #
+# Add Swap
+#
+sudo dd if=/dev/zero of=/swapspace bs=1M count=4000
+sudo mkswap /swapspace
+sudo swapon /swapspace
+echo "/swapspace none swap defaults 0 0" >> /etc/fstab
+
+#
 # Add PHP and PostgreSQL repositories
 #
 LC_ALL=en_US.UTF-8 add-apt-repository -y ppa:ondrej/php5-5.6

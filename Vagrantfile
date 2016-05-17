@@ -24,8 +24,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provider :virtualbox do |vb|
     vb.customize [
       "modifyvm", :id,
-      "--memory", "2048",             # How much RAM to give the VM (in MB)
-      "--cpus", "2",                  # Muli-core in the VM
+      "--memory", 512,             # How much RAM to give the VM (in MB)
+      "--cpus", 1,                 # Muli-core in the VM
       "--ioapic", "on",
       "--natdnshostresolver1", "on",
       "--natdnsproxy1", "on"
