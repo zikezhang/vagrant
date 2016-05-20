@@ -10,6 +10,9 @@ sudo mkswap /swapspace
 sudo swapon /swapspace
 echo "/swapspace none swap defaults 0 0" >> /etc/fstab
 
+echo nameserver 8.8.8.8 > /etc/resolv.conf
+echo nameserver 8.8.4.4 > /etc/resolv.conf
+
 #
 # Add PHP and PostgreSQL repositories
 #
@@ -26,6 +29,7 @@ rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 apt-key update
 apt-get update -qq
+apt-get upgrade -y --force-yes
 apt-get install -y build-essential software-properties-common python-software-properties
 
 #
