@@ -9,6 +9,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Base Box
   # --------------------
   config.vm.box = "ubuntu/trusty64"
+  config.vm.hostname = "phalcon.local"
 
   # Connect to IP
   # Note: Use an IP that doesn't conflict with any OS's DHCP (Below is a safe bet)
@@ -48,4 +49,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Provisioning Scripts
   # --------------------
   config.vm.provision "shell", path: "init.sh"
+  config.vm.provision :shell, inline: "sleep 10; service postgresql restart;"
+  config.vm.provision :shell, inline: "service redis-server restart;"
+  config.vm.provision :shell, inline: "service mysql restart;"
+  config.vm.provision :shell, inline: "service apache2 restart;"
+  config.vm.provision :shell, inline: "service mongodb restart;"
 end
