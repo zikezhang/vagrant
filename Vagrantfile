@@ -52,6 +52,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision :shell, inline: "sleep 10; service postgresql restart;"
   config.vm.provision :shell, inline: "service redis-server restart;"
   config.vm.provision :shell, inline: "service mysql restart;"
-  config.vm.provision :shell, inline: "service apache2 restart;"
+  config.vm.provision :shell, inline: "service apache2 restart;", run: "always"
   config.vm.provision :shell, inline: "service mongodb restart;"
 end
