@@ -79,7 +79,8 @@ apt-get -q -y install mysql-server-5.6 \
 #
 # Base PHP
 #
-apt-get install -y php5.6 \
+apt-get install -y --no-install-recommends \
+  php5.6 \
   php5.6-apcu \
   php5.6-bcmath \
   php5.6-bz2 \
@@ -103,10 +104,11 @@ apt-get install -y php5.6 \
   php5.6-mysqli \
   php5.6-pgsql \
   php5.6-redis \
-  php5.6-sqlite \
+  php5.6-sqlite3 \
   php5.6-soap \
   php5.6-xdebug \
   php5.6-xsl \
+  php5.6-xml \
   php5.6-zip
 
 #
