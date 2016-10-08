@@ -1,14 +1,11 @@
 # Vagrant Phalcon
 
-Phalcon strives to get closer to developers, providing flexible, powerful and simple tools.
-We would like a Phalcon development process to be effortless and pleasant
-from deployment of the development environment to the programming in Zephir language.
+Phalcon strives to get closer to developers, providing flexible, powerful and simple tools. We would like a Phalcon development process to be effortless and pleasant from deployment of the development environment to the programming in Zephir language.
 
-[Vagrant][1] provides a simple, elegant way to manage and provision Virtual Machines and
-this is a *recommended* Vagrant setup to get loaded with core development tools
-to build a powerful PHP application focused on [Phalcon Framework][2].
+[Vagrant][1] provides a simple, elegant way to manage and provision Virtual Machines and this is a *recommended* Vagrant setup to get loaded with core development tools to build a powerful PHP application focused on [Phalcon Framework][2].
 
 ## Index
+
 - [Landing Page](#landing-page)
 - [Overview](#overview)
 - [Packages Included](#packages-included)
@@ -24,22 +21,17 @@ to build a powerful PHP application focused on [Phalcon Framework][2].
 - [Software Suggestions](#software-suggestions)
 
 # Landing Page
-This is the default page for the Phalcon Vagrant Setup. This page will be empty at the beginning until
-you start adding VirtualHosts and content to the `/www/` folder.
-<img src="http://static.jream.com/img/github-phalcon-vagrant.jpg" alt="Phalcon Vagrant">
+
+This is the default page for the Phalcon Vagrant Setup. This page will be empty at the beginning until you start adding VirtualHosts and content to the `/www/` folder. ![Phalcon Vagrant](https://cloud.githubusercontent.com/assets/1256298/19213361/5a99fe60-8d73-11e6-8a32-361633e95c05.png)
 
 ## Overview
 
 We use the default Ubuntu trusty64 ISO from Vagrant for compatibility.
-If you choose to use a 64-bit ISO you may need to update your BIOS to enable [virtualization][12] with AMD-V,
-Intel VT-x or VIA VT.
+If you choose to use a 64-bit ISO you may need to update your BIOS to enable [virtualization][12] with `AMD-V`, `Intel VT-x` or `VIA VT`.
 
-When you provision Vagrant for the first time it's always the longest procedure (`$ vagrant up`).
-Vagrant will download the entire Linux OS if you've never used Vagrant or the ubuntu/trusty64 Box.
-Afterwards, booting time is fast.
+When you provision Vagrant for the first time it's always the longest procedure (`$ vagrant up`). Vagrant will download the entire Linux OS if you've never used Vagrant or the ubuntu/trusty64 Box. Afterwards, booting time is fast.
 
-By default this setup uses 2 GB. You can change this in `Vagrantfile` and simply run `$ vagrant reload`.
-You can also use more than one core if you like, simply uncomment these two lines in the same file:
+By default this setup uses 2 GB. You can change this in `Vagrantfile` and simply run `$ vagrant reload`. You can also use more than one core if you like, simply uncomment these two lines in the same file:
 
 ```yaml
 v.customize ["modifyvm", :id, "--cpus", "2"]
@@ -49,16 +41,16 @@ v.customize ["modifyvm", :id, "--ioapic", "on"]
 ## Packages Included
 
 - LAMP Stack
-  - Ubuntu 14.04.4 LTS
+  - Ubuntu 14.04.5 LTS
   - Apache 2.4.7
-  - PHP 5.6.21
-  - MySQL 5.6.30
+  - PHP 5.6.26
+  - MySQL 5.6.33
 - Git 1.9.1
 - Memcached 1.4.14
 - [Beanstalkd][11] 1.9
-- [Zephir][10] 0.9.3a-dev
+- [Zephir][10] 0.9.4a-dev
 - [SQLite][8] 3.8.2
-- [PostgreSQL][9] 9.4.8
+- [PostgreSQL][9] 9.4.9
 - [Phalcon][2] (latest stable)
 - [Phalcon Dev Tools][3] (latest stable)
 - [Redis][4] 3.0.7
@@ -99,8 +91,7 @@ Now you are ready to provision your Virtual Machine, run:
 $ vagrant up
 ```
 
-The `init.sh` script will provision the system with everything needed. Take a look
-inside if you want to change any default settings. Once provisioned, to access the box, simply type:
+The `init.sh` script will provision the system with everything needed. Take a look inside if you want to change any default settings. Once provisioned, to access the box, simply type:
 
 ```sh
 $ vagrant ssh
@@ -115,8 +106,7 @@ If you want to change your bound address (`192.168.50.4`), edit `Vagrantfile`, c
 $ vagrant reload
 ```
 
-If you want to point your Guest Machine (The Virtual Machine OS) to a friendly URL,
-you could modify your `etc/hosts` file and add the following:
+If you want to point your Guest Machine (The Virtual Machine OS) to a friendly URL, you could modify your `etc/hosts` file and add the following:
 
 ```
 192.168.50.4  your-server-name
@@ -152,15 +142,11 @@ To create a project type the following, I'll create one called `superstar` for t
 $ phalcon project superstar
 ```
 
-This will create a folder called `superstar` with all your Phalcon files. At this
-point you have a folder at `/vagrant/www/superstar` and your VirtualHost will need
-to point to `/vagrant/www/superstar/public`
+This will create a folder called `superstar` with all your Phalcon files. At this point you have a folder at `/vagrant/www/superstar` and your VirtualHost will need to point to `/vagrant/www/superstar/public`
 
 ## Create a VHost Record
 
-You can have multiple Phalcon projects in subfolders. Make sure to keep your base
-VirtualHost enabled, in our case it's the `vagrant.conf` enabled by default.
-Then follow the instructions below and take note, you must include the `ServerPath /project/` in your VirtualHost's.
+You can have multiple Phalcon projects in subfolders. Make sure to keep your base VirtualHost enabled, in our case it's the `vagrant.conf` enabled by default. Then follow the instructions below and take note, you must include the `ServerPath /project/` in your VirtualHost's.
 
 **Do not include a ServerPath for the base vagrant.conf VirtualHost.**
 
@@ -168,7 +154,8 @@ Then follow the instructions below and take note, you must include the `ServerPa
 $ touch superstar.conf
 ```
 
-Then include the following data (Notice the two directory paths with `superstar`)
+Then include the following data. Notice the two directory paths with `superstar`:
+
 ```apache
 <VirtualHost *:80>
     DocumentRoot /vagrant/www/superstar/public
@@ -212,16 +199,13 @@ http://192.168.50.4/superstar
 ## Local Editing
 
 On your Host computer open any file explorer or IDE and navigate to `/www/`.
-This folder is mounted to the Virtual Machine. Any changes to files within here will reflect
-realtime changes in the Virtual Machine.
+This folder is mounted to the Virtual Machine. Any changes to files within here will reflect realtime changes in the Virtual Machine.
 
-If you are using .git you should initialize your repository locally rather than on the server.
-This way you will not have to import keys into your Virtual Machine.
+If you are using .git you should initialize your repository locally rather than on the server. This way you will not have to import keys into your Virtual Machine.
 
 ## Using SSH
 
-Files in the shared directory of `www` are by default given ownership of `vagrant:vagrant` so
-that you will have no problems with saving cached files.
+Files in the shared directory of `www` are by default given ownership of `vagrant:vagrant` so that you will have no problems with saving cached files.
 
 ## Troubleshooting Vagrant Ubuntu
 
@@ -229,8 +213,7 @@ If you are using Linux such as Ubuntu, you may have to set a different IP that d
 here is a safe bet:
 - `192.168.50.4`
 
-If you are using the latest VirtualBox with Ubuntu 14, after installing guest additions (below),
-to fix the error message you will get due to a bug in the guest additions do the following after you run `$ vagrant up`.
+If you are using the latest VirtualBox with Ubuntu 14, after installing guest additions (below), to fix the error message you will get due to a bug in the guest additions do the following after you run `$ vagrant up`.
 
 ```sh
 $ vagrant ssh
@@ -240,8 +223,7 @@ $ vagrant reload
 
 ## Troubleshooting Phalcon
 
-If you are having trouble with Phalcon in this Vagrant Project (Or on your live server),
-try compiling in [safe mode](https://github.com/phalcon/cphalcon/issues/2336#issuecomment-40333421).
+If you are having trouble with Phalcon in this Vagrant Project (Or on your live server), try compiling in [safe mode](https://github.com/phalcon/cphalcon/issues/2336#issuecomment-40333421).
 
 If you are having problems with guest-additions on linux with mounting folders run this command in the guest machine:
 
@@ -255,6 +237,12 @@ If you are using Linux you can use the built in Terminal to do everything.
 The same goes with OSX.
 
 For Windows, you can use [Git SCM](http://git-scm.com/) and Bash.
+
+## License
+
+Phalcon MVC Examples is open source software licensed under the New BSD License.
+See the LICENSE.txt file for more. <br>
+Copyright (c) 2011-2016, Phalcon Framework Team
 
 [1]: http://vagrantup.com/
 [2]: https://phalconphp.com/
