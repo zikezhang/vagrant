@@ -88,9 +88,9 @@ apt-get install -yq --no-install-suggests --no-install-recommends \
   php7.0-curl \
   php7.0-gd \
   php7.0-intl \
-	php7.0-pgsql \
-	php7.0-mbstring \
-	php7.0-xml \
+  php7.0-pgsql \
+  php7.0-mbstring \
+  php7.0-xml \
   php-msgpack 
 
   
@@ -138,8 +138,16 @@ chown -R vagrant:vagrant ${ZEPHIRDIR}
 git clone --depth=1 git://github.com/phalcon/cphalcon.git
 (cd cphalcon && zephir build)
 touch /etc/php/5.6/mods-available/phalcon.ini
-echo -e "extension=phalcon.so" | tee /etc/php/5.6/mods-available/phalcon.ini &>/dev/null
 
+echo "extension=phalcon.so" >> /etc/php/7.0/fpm/conf.d/20-phalcon.ini
+echo "extension=phalcon.so" >> /etc/php/7.0/cli/conf.d/20-phalcon.ini
+echo -e "extension=phalcon.so" | tee /etc/php/7.0/mods-available/phalcon.ini &>/dev/null
+service php7.0-fpm restart
+
+# some additional php settings if you care
+sudo sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" /etc/php/7.0/cli/php.ini 
+sudo sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" /etc/php/7.0/fpm/php.ini
+sudo sed -i "s/memory_limit = 128M/memory_limit = 256M /g" /etc/php/7.0/fpm/php.ini
 #
 # Tune Up Redis
 #
@@ -195,11 +203,11 @@ ln -s /opt/phalcon-tools/phalcon.sh /usr/bin/phalcon
 #
 # Tune UP PHP
 #
-sed -i 's/short_open_tag = Off/short_open_tag = On/' /etc/php/5.6/apache2/php.ini
-sed -i 's/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/error_reporting = E_ALL/' /etc/php/5.6/apache2/php.ini
-sed -i 's/display_errors = Off/display_errors = On/' /etc/php/5.6/apache2/php.ini
-sed -i '/\[Session\]/a session.save_path = "/tmp"' /etc/php/5.6/apache2/php.ini
-phpenmod -v 5.6 -s ALL yaml mcrypt intl curl libsodium phalcon soap redis xdebug
+sed -i 's/short_open_tag = Off/short_open_tag = On/' /etc/php/7.0/apache2/php.ini
+sed -i 's/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/error_reporting = E_ALL/' /etc/php/7.0/apache2/php.ini
+sed -i 's/display_errors = Off/display_errors = On/' /etc/php/7.0/apache2/php.ini
+sed -i '/\[Session\]/a session.save_path = "/tmp"' /etc/php/7.0/apache2/php.ini
+phpenmod -v 7.0 -s ALL yaml mcrypt intl curl libsodium phalcon soap redis xdebug
 
 #
 # Tune Up Apache
