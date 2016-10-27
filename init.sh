@@ -80,48 +80,22 @@ apt-get install -yq --no-install-suggests --no-install-recommends \
 #
 # Base PHP
 #
+add-apt-repository ppa:ondrej/php
+apt-get install php7.0
 apt-get install -yq --no-install-suggests --no-install-recommends \
-  php5.6 \
-  php5.6-apcu \
-  php5.6-bcmath \
-  php5.6-bz2 \
-  php5.6-cli \
-  php5.6-common \
-  php5.6-curl \
-  php5.6-dba \
-  php5.6-dev \
-  php5.6-gd \
-  php5.6-gearman \
-  php5.6-gettext \
-  php5.6-gmp \
-  php5.6-imagick \
-  php5.6-imap \
-  php5.6-intl \
-  php5.6-json \
-  php5.6-mbstring \
-  php5.6-memcached \
-  php5.6-memcache \
-  php5.6-mcrypt \
-  php5.6-mongo \
-  php5.6-mongodb \
-  php5.6-mysql \
-  php-pear \
-  php5.6-odbc \
-  php5.6-pgsql \
-  php5.6-ps \
-  php5.6-pspell \
-  php5.6-redis \
-  php5.6-readline \
-  php5.6-recode \
-  php5.6-soap \
-  php5.6-sqlite3 \
-  php5.6-tidy \
-  php5.6-xdebug \
-  php5.6-xmlrpc \
-  php5.6-xsl \
-  php5.6-zip
+  php7.0-fpm \
+  php7.0-cli \
+  php7.0-curl \
+  php7.0-gd \
+  php7.0-intl \
+	php7.0-pgsql \
+	php7.0-mbstring \
+	php7.0-xml \
+  php-msgpack 
 
-echo "apc.enable_cli = 1" >> /etc/php/5.6/mods-available/apcu.ini
+  
+sudo apt-get install -y php-memcached
+echo "apc.enable_cli = 1" >> /etc/php/7.0/mods-available/apcu.ini
 
 #
 # Update PECL channel
